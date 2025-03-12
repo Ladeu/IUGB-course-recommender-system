@@ -43,8 +43,8 @@ COM 1300 B,Human Communication
 COM 2301 A,Technical Communication
 COM 2301 B,Technical Communication
 COM 2301 C,Technical Communication
-COM 2305 A,"Media, Culture, and Society"
-COM 2305 B,"Media, Culture, and Society"
+"COM 2305 A,""Media, Culture, and Society"""
+"COM 2305 B,""Media, Culture, and Society"""
 CSC 1300 A,Computers and Applications
 CSC 2300 A,Principles of Computer Science
 CSC 2300 B,Principles of Computer Science

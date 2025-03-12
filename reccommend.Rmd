@@ -1,0 +1,83 @@
+---
+title: "reccommend"
+output: html_document
+---
+
+```{r}
+# Read CSV file (replace with your actual path)
+courses_df <- read.csv("data/IUGB_courses.csv", stringsAsFactors = FALSE)
+
+# Garder un seul enregistrement par Course Name (par ex: le premier trouvé)
+unique_courses_df <- courses_df[!duplicated(courses_df$Course.Name), ]
+
+# Afficher les premiers résultats
+unique_courses_df
+
+
+```
+
+```{r}
+# Extract unique courses from the dataset
+available_courses <- unique(courses_df$Course.Name)
+
+# Simulate students (keep your 50 students)
+students <- 50
+
+# Generate student-course transactions from the real course list
+set.seed(42)
+student_courses <- lapply(1:students, function(x) {
+  sample(available_courses, sample(3:6, 1))  # Randomly pick 3 to 6 courses per student
+})
+
+# Convert list to transactions
+library(arules)
+transactions <- as(student_courses, "transactions")
+
+# View example transactions
+inspect(transactions[1:5])
+
+```
+
+
+
+```{r}
+# Load necessary libraries
+install.packages("arules")
+library(arules)
+
+# Simulated Data: Create a list of students and the courses they have taken
+set.seed(42)
+students <- 50  # Number of students
+courses <- c("Math", "Physics", "Chemistry", "Biology", "English", "History", 
+             "Programming", "Economics", "Finance", "Marketing")
+
+# Generate student-course transactions (each student takes random courses)
+student_courses <- lapply(1:students, function(x) {
+  sample(courses, sample(3:6, 1))  # Each student takes 3 to 6 courses randomly
+})
+
+# Convert list to transactions format
+transactions <- as(student_courses, "transactions")
+
+# View sample transactions
+inspect(transactions[1:5])
+
+# Apply the Apriori algorithm to find association rules
+rules <- apriori(transactions, parameter = list(supp = 0.1, conf = 0.6, target = "rules"))
+
+# Inspect top rules (sorted by confidence)
+inspect(sort(rules, by = "confidence")[1:10])
+
+# Generate Recommendations for a student who took "Math" and "Physics"
+student_courses_taken <- c("Math", "Physics")
+
+# Find matching rules where Math & Physics appear in the LHS
+matching_rules <- subset(rules, lhs %in% student_courses_taken)
+
+# Extract recommended courses from the RHS of the rules
+recommendations <- unique(rhs(matching_rules))
+
+# Display recommended courses
+print(as(recommendations, "list"))
+```
+
