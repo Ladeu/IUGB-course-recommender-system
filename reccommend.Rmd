@@ -81,3 +81,14 @@ recommendations <- unique(rhs(matching_rules))
 print(as(recommendations, "list"))
 ```
 
+---
+proposition de code pour extraire les données des etudiants
+---
+```{r}
+SELECT s.student_id, s.first_name, s.last_name, c.course_name
+FROM enrollments e
+JOIN students s ON e.student_id = s.student_id
+JOIN courses c ON e.course_id = c.course_id;
+
+```
+
