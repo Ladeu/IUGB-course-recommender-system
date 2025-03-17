@@ -1,0 +1,79 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+    color: #2f3640;
+    line-height: 1.6;
+  }
+  
+  header {
+    background-color: #40739e;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2 {
+    margin-bottom: 15px;
+  }
+  
+  .input-section, .recommendation-section {
+    margin-bottom: 30px;
+  }
+  
+  .course-input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #dcdde1;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: #44bd32;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  button:hover {
+    background-color: #4cd137;
+  }
+  
+  .recommendation-section ul {
+    list-style: none;
+    margin-top: 10px;
+  }
+  
+  .recommendation-section li {
+    background: #f1f2f6;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 10px;
+    background-color: #dcdde1;
+  }
+  

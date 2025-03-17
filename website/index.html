@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Course Recommender</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Student Course Recommendation System</h1>
+  </header>
+
+  <main>
+    <!-- Student Course Input -->
+    <section class="input-section">
+      <h2>Enter Your Completed Courses</h2>
+      <div id="course-inputs">
+        <input type="text" placeholder="Enter a course name..." class="course-input" />
+      </div>
+      <button onclick="addInput()">Add Another Course</button>
+      <button onclick="getRecommendations()">Get Recommendations</button>
+    </section>
+
+    <!-- Recommendations -->
+    <section class="recommendation-section">
+      <h2>Recommended Courses</h2>
+      <ul id="recommendations-list">
+        <!-- Recommended courses will appear here -->
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 IUGB Recommender Project | Developed by Kone Ladeu & Kagone Yamin</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
