@@ -5,7 +5,7 @@ output: html_document
 
 ```{r}
 # Read CSV file (replace with your actual path)
-courses_df <- read.csv("data/IUGB_courses.csv", stringsAsFactors = FALSE)
+courses_df <- read.csv("IUGB_courses.csv", stringsAsFactors = FALSE)
 
 # Garder un seul enregistrement par Course Name (par ex: le premier trouvé)
 unique_courses_df <- courses_df[!duplicated(courses_df$Course.Name), ]
@@ -15,26 +15,144 @@ unique_courses_df
 
 
 ```
+```{r}
+# Load necessary library
+library(dplyr)
+
+# Define the number of students
+students <- 5000
+
+# Define course lists for each program
+
+# Bachelor of Science in Computer Science (BSCSC)
+# Bachelor of Science in Computer Science (BSCSC)
+courses_BSCSC <- c(
+  "English_Composition_I", "English_Composition_II", "Calculus_I", "Discrete_Mathematics",
+  "Principles_of_Physics_I", "Principles_of_Physics_II", "Intro_to_American_Govt", "Global_Issues",
+  "Introduction_to_African_&_African-American_History", "Survey_of_US_History",
+  "History_of_Western_Art", "Art_of_Africa/Oceania/Americas", "Contemporary_African_Art", "Introduction_to_Theater",
+  "Technical_Communication", "Calculus_II", "Calculus_III", "Principles_of_Computer_Science", "Intro_to_Linear_Algebra", "Electronics",
+  "Principles_of_Computer_Programming", "Computer_Organization_&_Programming", "Operating_Systems_&_Networking",
+  "Data_Structures", "Computer_Architecture", "Wireless_Network_System_Administration", "Programming_Language_Concepts",
+  "Software_Engineering", "Design_&_Analysis_of_Algorithms", "Database_Systems",
+  "Platform-Based_System_Development", "Data_Mining", "Information_Security", "Artificial_Intelligence",
+  "Web_Programming", "Interactive_Application_Design", "Advanced_Network_Communication_&_Security", "Advanced_Database_Administration"
+)
+
+# Bachelor of Science in Mechanical Engineering Technology (BSMET)
+courses_BSMET <- c(
+  "English_Composition_I", "English_Composition_II", "Calculus_I", "Engineering_Mathematics",
+  "Principles_of_Physics_I", "Principles_of_Physics_II", "Intro_to_American_Gov’t", "Global_Issues",
+  "Introduction_to_African_&_African-American_History", "Survey_of_US_History",
+  "History_of_Western_Art", "Art_of_Africa/Oceania/Americas", "Contemporary_African_Art", "Introduction_to_Theater",
+  "Technical_Communication", "Principles_of_Chemistry_I", "Principles_of_Computer_Science", "Principles_of_Computer_Programming",
+  "Calculus_II", "Calculus_III", "Electronics", "Materials_&_Processes_I", "Introduction_to_Mechanics",
+  "Fluid_Mechanics_Application", "Fluid_Mechanics_Application_Lab", "Strength_of_Materials", "Strength_of_Materials_Lab",
+  "Applied_Thermodynamics", "Engineering_Graphics_and_Computer-Aided_Drafting", "Elements_of_Plant_Design", "Dynamics_of_Mechanisms",
+  "Auto_Manufacturing_Systems", "Computer-Aided_Design_I", "Quality_Control_Technology", "Materials_Technology", "Materials_Technology_Lab",
+  "Ethics_in_Engineering_Technology",
+  "Industrial_Work_Measurement", "Applications_Stress_Analysis", "Materials_Selection_&_Management", "Fundamentals_of_Biomechanics",
+  "Computer-Aided_Design_II", "Manufacturing_System_Control", "Fundamentals_of_Offshore_Systems", "Fundamentals_of_Pipeline_Design",
+  "Valve_Design", "Fundamentals_of_Drilling_Technology", "Downhole_Drilling_Tools/Technology"
+)
+
+# Bachelor of Science in Mathematics (BSMTH)
+courses_BSMTH <- c(
+  "English_Composition_I", "English_Composition_II", "Calculus_I", "Calculus_II", "Calculus_III",
+  "Linear_Algebra", "Abstract_Algebra", "Real_Analysis", "Complex_Analysis", "Differential_Equations",
+  "Probability_and_Statistics", "Numerical_Methods", "Topology", "Mathematical_Modeling", "Graph_Theory",
+  "Optimization", "History_of_Mathematics", "Mathematical_Logic"
+)
+
+# Bachelor of Business Administration (BBA)
+courses_BBA <- c(
+  "English_Composition_I", "English_Composition_II", "Principles_of_Accounting_I", "Principles_of_Accounting_II",
+  "Business_Statistics", "Microeconomics", "Macroeconomics", "Business_Law", "Marketing_Principles",
+  "Financial_Management", "Organizational_Behavior", "Strategic_Management", "Operations_Management",
+  "Business_Ethics", "International_Business", "Entrepreneurship", "Human_Resource_Management",
+  "Consumer_Behavior"
+)
+
+# Bachelor of Science in Data Science (BSDSC)
+courses_BSDSC <- c(
+  "English_Composition_I", "English_Composition_II", "Calculus_I", "Linear_Algebra", "Statistics_&_Probability",
+  "Introduction_to_Data_Science", "Machine_Learning", "Data_Visualization", "Big_Data_Analytics", "Data_Mining",
+  "Cloud_Computing", "Artificial_Intelligence", "Database_Systems", "Programming_for_Data_Science"
+)
+
+# Bachelor of Science in Economics (BSECO)
+courses_BSECO <- c(
+  "English_Composition_I", "English_Composition_II", "Principles_of_Microeconomics", "Principles_of_Macroeconomics",
+  "Statistics_for_Economics", "Econometrics", "Public_Economics", "International_Economics", "Development_Economics",
+  "Behavioral_Economics", "Financial_Economics", "Economic_Policy_Analysis"
+)
+
+# Bachelor of Science in Cyber Information Security (BSCIS)
+courses_BSCIS <- c(
+  "English_Composition_I", "English_Composition_II", "Calculus_I", "Discrete_Mathematics", "Computer_Networks",
+  "Operating_Systems_Security", "Cryptography", "Cybersecurity_Risk_Management", "Ethical_Hacking",
+  "Penetration_Testing", "Digital_Forensics", "Cloud_Security", "Blockchain_Security", "Cyber_Law_&_Policy"
+)
+
+# Generate student-course transactions
+programs <- c("BSCSC", "BSMET", "BSMTH", "BBA", "BSDSC", "BSECO", "BSCIS")
+student_programs <- sample(programs, students, replace = TRUE)
+
+# Precompute the number of courses per student
+num_courses <- sample(5:16, students, replace = TRUE)
+
+# Create an empty list to store student data
+student_list <- vector("list", students)
+
+# Populate the data frame efficiently
+for (i in 1:students) {
+  selected_program <- student_programs[i]
+  
+  # Get the list of courses for the student's program
+  available_courses <- switch(selected_program,
+                              "BSCSC" = courses_BSCSC,
+                              "BSMET" = courses_BSMET,
+                              "BSMTH" = courses_BSMTH,
+                              "BBA" = courses_BBA,
+                              "BSDSC" = courses_BSDSC,
+                              "BSECO" = courses_BSECO,
+                              "BSCIS" = courses_BSCIS)
+
+  # Ensure we do not sample more courses than available
+  max_courses <- min(num_courses[i], length(available_courses))
+  assigned_courses <- sample(available_courses, max_courses, replace = FALSE)
+
+  # Store data in the list
+  student_list[[i]] <- data.frame(
+    Student_ID = rep(i, max_courses),
+    Program = rep(selected_program, max_courses),
+    Course = assigned_courses,
+    stringsAsFactors = FALSE
+  )
+}
+
+# Combine list into a single data frame
+data <- do.call(rbind, student_list)
+# View the first few rows of the dataset
+data
+
+```
+```{r}
+df_student <- data
+df_student
+```
+
 
 ```{r}
-# Extract unique courses from the dataset
-available_courses <- unique(courses_df$Course.Name)
-
-# Simulate students (keep your 50 students)
-students <- 50
-
-# Generate student-course transactions from the real course list
-set.seed(42)
-student_courses <- lapply(1:students, function(x) {
-  sample(available_courses, sample(3:6, 1))  # Randomly pick 3 to 6 courses per student
-})
-
-# Convert list to transactions
+# Load necessary library
 library(arules)
-transactions <- as(student_courses, "transactions")
+
+# Convert student-course data to transactions format
+transactions <- as(split(df_student$Course, data$Student_ID), "transactions")
 
 # View example transactions
 inspect(transactions[1:5])
+
 
 ```
 
@@ -42,36 +160,46 @@ inspect(transactions[1:5])
 
 ```{r}
 # Load necessary libraries
-install.packages("arules")
+install.packages("arules")  # Only install if not installed
 library(arules)
 
-# Simulated Data: Create a list of students and the courses they have taken
-set.seed(42)
-students <- 50  # Number of students
-courses <- c("Math", "Physics", "Chemistry", "Biology", "English", "History", 
-             "Programming", "Economics", "Finance", "Marketing")
+# Convert student-course data to a list format suitable for transactions
+student_list <- split(df_student$Course, df_student$Student_ID)
 
-# Generate student-course transactions (each student takes random courses)
-student_courses <- lapply(1:students, function(x) {
-  sample(courses, sample(3:6, 1))  # Each student takes 3 to 6 courses randomly
-})
-
-# Convert list to transactions format
-transactions <- as(student_courses, "transactions")
+# Convert to transaction format
+transactions <- as(student_list, "transactions")
 
 # View sample transactions
 inspect(transactions[1:5])
 
 # Apply the Apriori algorithm to find association rules
-rules <- apriori(transactions, parameter = list(supp = 0.1, conf = 0.6, target = "rules"))
+rules <- apriori(transactions, parameter = list(supp = 0.05, conf = 0.6, target = "rules"))
 
 # Inspect top rules (sorted by confidence)
 inspect(sort(rules, by = "confidence")[1:10])
 
-# Generate Recommendations for a student who took "Math" and "Physics"
-student_courses_taken <- c("Math", "Physics")
+# Generate Recommendations for a student who took specific courses
+student_courses_taken <- c("Calculus_I", "Linear_Algebra")  # Example input
 
-# Find matching rules where Math & Physics appear in the LHS
+# Find matching rules where selected courses appear in the LHS
+matching_rules <- subset(rules, lhs %in% student_courses_taken)
+
+# Extract recommended courses from the RHS of the rules
+recommendations <- unique(rhs(matching_rules))
+
+# Display recommended courses
+print(as(recommendations, "list"))
+
+```
+```{r}
+print(as(recommendations, "list"))
+```
+```{r}
+# Generate Recommendations for a student who took specific courses
+student_courses_taken <- c("English Composition I", "English Composition II", "Principles of Microeconomics", "Principles of Macroeconomics",
+  "Statistics for Economics")  # Example input
+
+# Find matching rules where selected courses appear in the LHS
 matching_rules <- subset(rules, lhs %in% student_courses_taken)
 
 # Extract recommended courses from the RHS of the rules
@@ -80,15 +208,18 @@ recommendations <- unique(rhs(matching_rules))
 # Display recommended courses
 print(as(recommendations, "list"))
 ```
-
----
-proposition de code pour extraire les données des etudiants
----
 ```{r}
-SELECT s.student_id, s.first_name, s.last_name, c.course_name
-FROM enrollments e
-JOIN students s ON e.student_id = s.student_id
-JOIN courses c ON e.course_id = c.course_id;
+write.csv(as(recommendations, "list"), "recommendations.csv", row.names = FALSE)
+saveRDS(transactions, "student_transactions.rds")
+```
+```{r}
+install.packages("plumber")
+library(plumber)
 
+```
+
+```{r}
+# Save the rules model to a file
+saveRDS(rules, file = "course_recommendation_rules.rds")
 ```
 

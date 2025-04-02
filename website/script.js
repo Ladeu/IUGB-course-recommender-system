@@ -13,7 +13,7 @@ async function getRecommendations() {
 
   // Prepare the API endpoint URL
   const query = takenCourses.join(",");
-  const apiUrl = `http://127.0.0.1:8000/recommend?courses=${encodeURIComponent(query)}`;
+  const apiUrl = `  ${encodeURIComponent(query)}`;
 
   try {
     const response = await fetch(apiUrl);
